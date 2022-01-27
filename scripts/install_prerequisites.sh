@@ -105,7 +105,7 @@ done
 # If no package manager is found, exit
 if [ -z "$MANAGER" ]
 then
-      echo "Error: No preferred package managers from list [${MANAGERS[*]}] found. Use -m to select manually." >&2
+      echo "Error: No preferred package managers from list [${MANAGERS[*]}] found. Check its discoverable from terminal. Use -m to select manually." >&2
       exit 1
 fi
 if ((VERBOSE > 0)); then echo "Using \"$MANAGER\" package manager (select another using -m)"; fi

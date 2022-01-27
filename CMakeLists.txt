@@ -21,8 +21,8 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 include(SetPlatformVars)
 include(PangolinFactory)
 
-option( BUILD_TOOLS "Build Tools" ON )
-option( BUILD_EXAMPLES "Build Examples" ON )
+option( BUILD_TOOLS "Build Tools" OFF )
+option( BUILD_EXAMPLES "Build Examples" OFF )
 
 # Default build type (Override with cmake .. -DCMAKE_BUILD_TYPE=...)
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -32,6 +32,7 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 endif()
 
 if(_WIN_)
+    include(C:/nfynt/vcpkg/scripts/buildsystems/vcpkg.cmake)
     option( BUILD_SHARED_LIBS    "Build Shared Library" OFF)
     option( MSVC_USE_STATIC_CRT  "Use static C Runtime with MSVC, /MT instead of /MD" ON)
 
@@ -65,7 +66,7 @@ endif()
 #######################################################
 ## Testing setup
 
-option( BUILD_TESTS "Build Tests" ON)
+option( BUILD_TESTS "Build Tests" OFF)
 find_package(Catch2 2 QUIET)
 if(Catch2_FOUND)
     include(CTest)
@@ -81,7 +82,7 @@ endif()
 ## Add all pangolin components
 
 file(GLOB components_cmake "${CMAKE_CURRENT_LIST_DIR}/components/*/CMakeLists.txt")
-set(component_list "")
+set(component_list "" PARENT_SCOPE)
 foreach(component_cmake ${components_cmake})
     get_filename_component(component_dir ${component_cmake} DIRECTORY)
     get_filename_component(component_name ${component_dir} NAME)
@@ -152,7 +153,7 @@ endif()
 #######################################################
 ## Tools / Examples
 
-set(Pangolin_DIR ${CMAKE_CURRENT_BINARY_DIR})
+set(Pangolin_DIR ${CMAKE_CURRENT_BINARY_DIR} PARENT_SCOPE)
 
 if(BUILD_EXAMPLES)
     add_subdirectory(examples)
